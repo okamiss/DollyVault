@@ -6,12 +6,14 @@ import { Plus, Search } from 'lucide-react';
 import { http } from '../../shared/api/http';
 import { EmptyState } from '../../shared/components/EmptyState';
 import { PageHeader } from '../../shared/components/PageHeader';
+import { useAuthStore } from '../../shared/stores/authStore';
 import type { CatalogItem } from '../../shared/types';
-import { itemImage, money } from '../../shared/utils';
+import { groupCatalogItemsByOwnership, itemImage, money } from '../../shared/utils';
 
 export function CatalogListPage() {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
+  const currentUser = useAuthStore((state) => state.user);
   const catalogQuery = useQuery({
     queryKey: ['catalog', search],
     queryFn: async () => {
@@ -23,6 +25,29 @@ export function CatalogListPage() {
   });
 
   const catalog = catalogQuery.data ?? [];
+  const { owned, publicItems } = groupCatalogItemsByOwnership(catalog, currentUser);
+
+  const renderCatalogGrid = (items: CatalogItem[]) => (
+    <div className="catalog-grid">
+      {items.map((item) => (
+        <Card
+          key={item.id}
+          hoverable
+          className="catalog-card"
+          onClick={() => navigate(`/catalog/${item.id}`)}
+          cover={<img src={itemImage(item) || undefined} alt={item.name} />}
+        >
+          <strong>{item.name}</strong>
+          <span>{item.characterName} · {item.series || '未设置系列'}</span>
+          <Space wrap>
+            {item.tags?.slice(0, 3).map((tag) => <Tag key={tag}>{tag}</Tag>)}
+          </Space>
+          <small>使用 {item.usageCount ?? 0} 次</small>
+          <small>{item.officialPrice ? `官方价 ${money(item.officialPrice)}` : '未记录官方价'}</small>
+        </Card>
+      ))}
+    </div>
+  );
 
   return (
     <>
@@ -52,24 +77,26 @@ export function CatalogListPage() {
           onAction={() => navigate('/catalog/new')}
         />
       ) : (
-        <div className="catalog-grid">
-          {catalog.map((item) => (
-            <Card
-              key={item.id}
-              hoverable
-              className="catalog-card"
-              onClick={() => navigate(`/catalog/${item.id}`)}
-              cover={<img src={itemImage(item) || undefined} alt={item.name} />}
-            >
-              <strong>{item.name}</strong>
-              <span>{item.characterName} · {item.series || '未设置系列'}</span>
-              <Space wrap>
-                {item.tags?.slice(0, 3).map((tag) => <Tag key={tag}>{tag}</Tag>)}
-              </Space>
-              <small>{item.officialPrice ? `官方价 ${money(item.officialPrice)}` : '未记录官方价'}</small>
-            </Card>
-          ))}
-        </div>
+        <>
+          {owned.length > 0 && (
+            <section className="catalog-section">
+              <div className="section-title-row">
+                <h2>我的图鉴</h2>
+                <span>{owned.length} 条</span>
+              </div>
+              {renderCatalogGrid(owned)}
+            </section>
+          )}
+          {publicItems.length > 0 && (
+            <section className="catalog-section">
+              <div className="section-title-row">
+                <h2>公共图鉴</h2>
+                <span>{publicItems.length} 条</span>
+              </div>
+              {renderCatalogGrid(publicItems)}
+            </section>
+          )}
+        </>
       )}
     </>
   );

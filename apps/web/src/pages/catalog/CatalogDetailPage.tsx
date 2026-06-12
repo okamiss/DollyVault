@@ -1,4 +1,16 @@
-import { Button, Card, Descriptions, Form, Input, InputNumber, Popconfirm, Space, Tag, App as AntApp } from 'antd';
+import {
+  Button,
+  Card,
+  Descriptions,
+  Form,
+  Image,
+  Input,
+  InputNumber,
+  Modal,
+  Space,
+  Tag,
+  App as AntApp,
+} from 'antd';
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -6,8 +18,14 @@ import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { http } from '../../shared/api/http';
 import { EmptyState } from '../../shared/components/EmptyState';
 import { PageHeader } from '../../shared/components/PageHeader';
+import { useAuthStore } from '../../shared/stores/authStore';
 import type { CatalogItem, PriceRecord } from '../../shared/types';
-import { dateText, itemImage, money } from '../../shared/utils';
+import {
+  canManageCatalogItem,
+  dateText,
+  getApiErrorMessage,
+  money,
+} from '../../shared/utils';
 import { AddCollectionModal } from './AddCollectionModal';
 
 interface PriceForm {
@@ -21,7 +39,9 @@ export function CatalogDetailPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { message } = AntApp.useApp();
+  const [modal, modalContextHolder] = Modal.useModal();
   const [addOpen, setAddOpen] = useState(false);
+  const currentUser = useAuthStore((state) => state.user);
 
   const catalogQuery = useQuery({
     queryKey: ['catalog', id],
@@ -58,6 +78,32 @@ export function CatalogDetailPage() {
   });
 
   const item = catalogQuery.data;
+  const canManage = canManageCatalogItem(item, currentUser);
+  const galleryImages = item?.images?.length
+    ? item.images
+    : item?.coverImage
+      ? [{ url: item.coverImage, objectKey: item.coverImage }]
+      : [];
+
+  const handleDelete = () => {
+    modal.confirm({
+      title: '确认删除这条图鉴？',
+      content: '删除后无法恢复。已被收藏使用的图鉴不能删除。',
+      okText: '删除',
+      okButtonProps: { danger: true },
+      cancelText: '取消',
+      onOk: async () => {
+        try {
+          await deleteMutation.mutateAsync();
+        } catch (error) {
+          modal.error({
+            title: '删除失败',
+            content: getApiErrorMessage(error, '删除图鉴失败，请稍后再试'),
+          });
+        }
+      },
+    });
+  };
 
   if (!item) {
     return (
@@ -70,22 +116,40 @@ export function CatalogDetailPage() {
 
   return (
     <>
+      {modalContextHolder}
       <PageHeader
         title="图鉴详情"
         back
         action={
-          <Space>
-            <Button icon={<Pencil size={16} />} onClick={() => navigate(`/catalog/${id}/edit`)}>
-              编辑
-            </Button>
-            <Popconfirm title="确认删除这条图鉴？" onConfirm={() => deleteMutation.mutate()}>
-              <Button danger icon={<Trash2 size={16} />}>删除</Button>
-            </Popconfirm>
-          </Space>
+          canManage ? (
+            <Space>
+              <Button icon={<Pencil size={16} />} onClick={() => navigate(`/catalog/${id}/edit`)}>
+                编辑
+              </Button>
+              <Button danger icon={<Trash2 size={16} />} onClick={handleDelete}>
+                删除
+              </Button>
+            </Space>
+          ) : undefined
         }
       />
       <section className="detail-hero">
-        <img src={itemImage(item) || undefined} alt={item.name} />
+        {galleryImages.length > 0 ? (
+          <Image.PreviewGroup>
+            <div className={`detail-image-grid ${galleryImages.length === 1 ? 'single' : ''}`}>
+              {galleryImages.map((image, index) => (
+                <Image
+                  key={`${image.objectKey}-${index}`}
+                  src={image.url}
+                  alt={`${item.name} ${index + 1}`}
+                  className="detail-image"
+                />
+              ))}
+            </div>
+          </Image.PreviewGroup>
+        ) : (
+          <div className="detail-image-placeholder" aria-label={item.name} />
+        )}
       </section>
       <Card className="detail-card">
         <div className="detail-title-row">

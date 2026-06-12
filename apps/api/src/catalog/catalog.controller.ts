@@ -35,12 +35,16 @@ export class CatalogController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateCatalogDto) {
-    return this.catalogService.update(id, dto);
+  update(
+    @CurrentUser() user: RequestUser,
+    @Param('id') id: string,
+    @Body() dto: UpdateCatalogDto,
+  ) {
+    return this.catalogService.update(user.id, id, dto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.catalogService.remove(id);
+  remove(@CurrentUser() user: RequestUser, @Param('id') id: string) {
+    return this.catalogService.remove(user.id, id);
   }
 }

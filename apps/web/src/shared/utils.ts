@@ -1,4 +1,4 @@
-import type { CatalogItem, CollectionItem } from './types';
+import type { CatalogItem, CollectionItem, CurrentUser, UploadedImage } from './types';
 
 export function money(value: string | number | null | undefined) {
   const numberValue = Number(value ?? 0);
@@ -28,4 +28,42 @@ export function estimateFor(item: CollectionItem) {
     item.purchasePrice ??
     0
   );
+}
+
+export function canManageCatalogItem(
+  item: Pick<CatalogItem, 'createdById'> | null | undefined,
+  user: Pick<CurrentUser, 'id'> | null | undefined,
+) {
+  return Boolean(item && user && item.createdById === user.id);
+}
+
+export function groupCatalogItemsByOwnership<T extends Pick<CatalogItem, 'createdById'>>(
+  items: T[],
+  user: Pick<CurrentUser, 'id'> | null | undefined,
+) {
+  return {
+    owned: items.filter((item) => canManageCatalogItem(item, user)),
+    publicItems: items.filter((item) => !canManageCatalogItem(item, user)),
+  };
+}
+
+export function toUploadedImages<T extends UploadedImage>(
+  images: T[] | null | undefined,
+): UploadedImage[] {
+  return (images ?? []).map((image) => ({
+    url: image.url,
+    objectKey: image.objectKey,
+    provider: image.provider,
+    mimeType: image.mimeType,
+    size: image.size,
+  }));
+}
+
+export function getApiErrorMessage(error: unknown, fallback: string) {
+  const message = (error as { response?: { data?: { message?: unknown } } })?.response?.data
+    ?.message;
+  if (Array.isArray(message)) {
+    return message.join('；');
+  }
+  return typeof message === 'string' && message.trim() ? message : fallback;
 }

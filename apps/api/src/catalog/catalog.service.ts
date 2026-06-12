@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CatalogStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCatalogDto, UpdateCatalogDto } from './dto/catalog.dto';
@@ -7,7 +12,7 @@ import { CreateCatalogDto, UpdateCatalogDto } from './dto/catalog.dto';
 export class CatalogService {
   constructor(private readonly prisma: PrismaService) {}
 
-  list(search?: string) {
+  async list(search?: string) {
     const where = search
       ? {
           OR: [
@@ -19,15 +24,23 @@ export class CatalogService {
         }
       : {};
 
-    return this.prisma.catalogItem.findMany({
+    const items = await this.prisma.catalogItem.findMany({
       where,
       include: {
         images: { orderBy: { sortOrder: 'asc' } },
         _count: { select: { collections: true, priceRecords: true } },
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: [
+        { collections: { _count: 'desc' } },
+        { createdAt: 'desc' },
+      ],
       take: 100,
     });
+
+    return items.map((item) => ({
+      ...item,
+      usageCount: item._count.collections,
+    }));
   }
 
   async create(userId: string, dto: CreateCatalogDto) {
@@ -78,8 +91,8 @@ export class CatalogService {
     return item;
   }
 
-  async update(id: string, dto: UpdateCatalogDto) {
-    await this.ensureExists(id);
+  async update(userId: string, id: string, dto: UpdateCatalogDto) {
+    await this.ensureOwned(id, userId);
     const images = dto.images ?? [];
 
     return this.prisma.$transaction(async (tx) => {
@@ -117,8 +130,14 @@ export class CatalogService {
     });
   }
 
-  async remove(id: string) {
-    await this.ensureExists(id);
+  async remove(userId: string, id: string) {
+    await this.ensureOwned(id, userId);
+    const usageCount = await this.prisma.collectionItem.count({
+      where: { catalogItemId: id },
+    });
+    if (usageCount > 0) {
+      throw new BadRequestException('已有收藏使用这条图鉴，不能删除');
+    }
     await this.prisma.catalogItem.delete({ where: { id } });
     return { ok: true };
   }
@@ -127,6 +146,14 @@ export class CatalogService {
     const item = await this.prisma.catalogItem.findUnique({ where: { id } });
     if (!item) {
       throw new NotFoundException('图鉴不存在');
+    }
+    return item;
+  }
+
+  private async ensureOwned(id: string, userId: string) {
+    const item = await this.ensureExists(id);
+    if (item.createdById !== userId) {
+      throw new ForbiddenException('只能操作自己创建的图鉴');
     }
     return item;
   }

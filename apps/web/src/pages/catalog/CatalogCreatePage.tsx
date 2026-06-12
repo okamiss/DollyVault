@@ -1,11 +1,15 @@
 import { Button, DatePicker, Form, Input, InputNumber, App as AntApp } from 'antd';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { http } from '../../shared/api/http';
+import { EmptyState } from '../../shared/components/EmptyState';
 import { ImageUploader } from '../../shared/components/ImageUploader';
 import { PageHeader } from '../../shared/components/PageHeader';
+import { useAuthStore } from '../../shared/stores/authStore';
 import type { CatalogItem, UploadedImage } from '../../shared/types';
+import { canManageCatalogItem, toUploadedImages } from '../../shared/utils';
 
 interface CatalogForm {
   name: string;
@@ -26,26 +30,34 @@ export function CatalogCreatePage() {
   const [form] = Form.useForm<CatalogForm>();
   const { message } = AntApp.useApp();
   const queryClient = useQueryClient();
+  const currentUser = useAuthStore((state) => state.user);
 
-  useQuery({
+  const catalogQuery = useQuery({
     queryKey: ['catalog', id],
-    enabled: isEdit,
+    enabled: isEdit && Boolean(id),
     queryFn: async () => {
       const { data } = await http.get<CatalogItem>(`/catalog/${id}`);
-      form.setFieldsValue({
-        name: data.name,
-        characterName: data.characterName,
-        series: data.series ?? undefined,
-        model: data.model ?? undefined,
-        releaseDate: data.releaseDate ? dayjs(data.releaseDate) : undefined,
-        officialPrice: Number(data.officialPrice ?? 0) || undefined,
-        tags: data.tags?.join('，'),
-        description: data.description ?? undefined,
-        images: data.images ?? [],
-      });
       return data;
     },
   });
+  const editingItem = catalogQuery.data;
+  const canEdit = !isEdit || canManageCatalogItem(editingItem, currentUser);
+
+  useEffect(() => {
+    if (!editingItem) return;
+
+    form.setFieldsValue({
+      name: editingItem.name,
+      characterName: editingItem.characterName,
+      series: editingItem.series ?? undefined,
+      model: editingItem.model ?? undefined,
+      releaseDate: editingItem.releaseDate ? dayjs(editingItem.releaseDate) : undefined,
+      officialPrice: Number(editingItem.officialPrice ?? 0) || undefined,
+      tags: editingItem.tags?.join('，'),
+      description: editingItem.description ?? undefined,
+      images: toUploadedImages(editingItem.images),
+    });
+  }, [editingItem, form]);
 
   const saveMutation = useMutation({
     mutationFn: async (values: CatalogForm) => {
@@ -60,7 +72,7 @@ export function CatalogCreatePage() {
           ? values.tags.split(/[,，]/).map((tag) => tag.trim()).filter(Boolean)
           : [],
         description: values.description,
-        images: values.images ?? [],
+        images: toUploadedImages(values.images),
         coverImage: values.images?.[0]?.url,
       };
       const { data } = isEdit
@@ -77,6 +89,29 @@ export function CatalogCreatePage() {
       message.error(error?.response?.data?.message || '保存失败');
     },
   });
+
+  if (isEdit && catalogQuery.isPending) {
+    return (
+      <>
+        <PageHeader title="编辑图鉴" back />
+        <EmptyState title="正在读取图鉴" />
+      </>
+    );
+  }
+
+  if (isEdit && editingItem && !canEdit) {
+    return (
+      <>
+        <PageHeader title="编辑图鉴" back />
+        <EmptyState
+          title="只能编辑自己创建的图鉴"
+          description="这条公共图鉴由其他用户创建，可以查看和添加到自己的收藏。"
+          actionText="回到图鉴详情"
+          onAction={() => navigate(`/catalog/${id}`)}
+        />
+      </>
+    );
+  }
 
   return (
     <>

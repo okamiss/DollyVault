@@ -236,6 +236,11 @@ select {
   font-size: 20px;
 }
 
+.section-title-row span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
 .empty-state {
   min-height: 320px;
   display: grid;
@@ -316,6 +321,10 @@ select {
   gap: 14px;
 }
 
+.catalog-section {
+  margin-bottom: 26px;
+}
+
 .catalog-card .ant-card-cover img {
   width: 100%;
   aspect-ratio: 1;
@@ -342,19 +351,51 @@ select {
 .detail-hero {
   width: 100%;
   min-height: 280px;
-  max-height: 520px;
   border-radius: 20px;
   overflow: hidden;
-  background: #ffe7f0;
+  background: var(--card);
+  border: 1px solid var(--line);
   margin-bottom: 16px;
-  display: grid;
-  place-items: center;
+  padding: 12px;
 }
 
-.detail-hero img {
+.detail-image-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.detail-image-grid.single {
+  grid-template-columns: 1fr;
+}
+
+.detail-image-grid .ant-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  display: block;
+  overflow: hidden;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #ffd6e8, #d7ccff);
+}
+
+.detail-image-grid.single .ant-image {
+  aspect-ratio: 16 / 9;
+  max-height: 520px;
+}
+
+.detail-image-grid .ant-image-img,
+.detail-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.detail-image-placeholder {
+  width: 100%;
+  min-height: 280px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #ffd6e8, #d7ccff);
 }
 
 .detail-title-row,

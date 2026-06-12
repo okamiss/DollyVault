@@ -21,6 +21,7 @@ export interface UploadedImage {
 
 export interface CatalogItem {
   id: string;
+  createdById: string;
   name: string;
   characterName: string;
   series?: string | null;
@@ -33,6 +34,7 @@ export interface CatalogItem {
   images?: UploadedImage[];
   priceRecords?: PriceRecord[];
   collections?: CollectionItem[];
+  usageCount?: number;
 }
 
 export interface CollectionItem {
