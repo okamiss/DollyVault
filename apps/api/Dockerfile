@@ -1,7 +1,7 @@
 FROM node:22-alpine AS build
 WORKDIR /app
 RUN corepack enable
-COPY .npmrc package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY package.json pnpm-workspace.yaml ./
 COPY apps/api/package.json apps/api/package.json
 RUN pnpm install --filter @dollyvault/api --frozen-lockfile=false
 COPY apps/api apps/api

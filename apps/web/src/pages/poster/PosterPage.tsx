@@ -1,4 +1,4 @@
-import { Button, Card, Select, Space } from 'antd';
+import { Button, Card, Select, Space, message } from 'antd';
 import { useMemo, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { toPng } from 'html-to-image';
@@ -41,11 +41,16 @@ export function PosterPage() {
 
   const download = async () => {
     if (!posterRef.current || !selected) return;
-    const dataUrl = await toPng(posterRef.current, { pixelRatio: 2, cacheBust: true });
-    const link = document.createElement('a');
-    link.download = `DollyVault-${selected.catalogItem.name}.png`;
-    link.href = dataUrl;
-    link.click();
+    try {
+      const dataUrl = await toPng(posterRef.current, { pixelRatio: 2, cacheBust: true });
+      const link = document.createElement('a');
+      link.download = `DollyVault-${selected.catalogItem.name}.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (error) {
+      console.error(error);
+      message.error('海报图片跨域加载失败，请检查 OSS CORS 配置');
+    }
   };
 
   return (
@@ -90,7 +95,11 @@ export function PosterPage() {
                 className={`poster-preview poster-${selectedTemplate?.key ?? templateKey}`}
               >
                 <div className="poster-kicker">My Collection</div>
-                <img src={itemImage(selected) || undefined} alt={selected.catalogItem.name} />
+                <img
+                  src={itemImage(selected) || undefined}
+                  alt={selected.catalogItem.name}
+                  crossOrigin="anonymous"
+                />
                 <h2>{selected.catalogItem.name}</h2>
                 <p>{selected.catalogItem.characterName} · {selected.catalogItem.series || 'DollyVault'}</p>
                 <div className="poster-price-box">
