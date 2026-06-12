@@ -181,3 +181,13 @@ After coding:
 - Mention any limitations or risks.
 
 Be concise.
+
+## UI / UX Requirements
+
+All UI and UX changes must strictly follow `DESIGN.md`.
+
+Codex must read `DESIGN.md` before making any frontend changes involving layout, components, colors, typography, spacing, animations, responsive design, or interaction flows.
+
+Do not create inconsistent styles, duplicate design patterns, or random visual decisions outside the design system.
+
+If a UI/UX requirement is unclear, prefer the existing patterns in `DESIGN.md` and the current codebase.

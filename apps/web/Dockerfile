@@ -11,7 +11,7 @@ RUN pnpm --filter @dollyvault/web build
 
 FROM node:22-alpine
 WORKDIR /app
-RUN corepack enable && pnpm add -g serve
+RUN npm install -g serve
 COPY --from=build /app/apps/web/dist ./dist
 EXPOSE 5173
 CMD ["serve", "-s", "dist", "-l", "5173"]

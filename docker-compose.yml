@@ -5,25 +5,37 @@ services:
       POSTGRES_USER: dollyvault
       POSTGRES_PASSWORD: dollyvault
       POSTGRES_DB: dollyvault
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dollyvault -d dollyvault"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     ports:
-      - "5432:5432"
+      - "35438:5432"
     volumes:
       - dollyvault_pg:/var/lib/postgresql/data
 
   api:
-    build: ./apps/api
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
     env_file: .env
     ports:
-      - "3000:3000"
+      - "38088:3000"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
   web:
-    build: ./apps/web
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        VITE_API_BASE_URL: http://localhost:38088
     environment:
-      VITE_API_BASE_URL: http://localhost:3000
+      VITE_API_BASE_URL: http://localhost:38088
     ports:
-      - "5173:5173"
+      - "38087:5173"
     depends_on:
       - api
 

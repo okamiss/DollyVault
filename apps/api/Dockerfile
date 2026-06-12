@@ -17,4 +17,4 @@ COPY --from=build /app/apps/api/node_modules ./apps/api/node_modules
 COPY --from=build /app/apps/api/dist ./apps/api/dist
 COPY --from=build /app/apps/api/prisma ./apps/api/prisma
 WORKDIR /app/apps/api
-CMD ["node", "dist/main.js"]
+CMD ["sh", "-c", "./node_modules/.bin/prisma db push && node dist/src/main.js"]
