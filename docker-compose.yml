@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: dollyvault
+      POSTGRES_PASSWORD: dollyvault
+      POSTGRES_DB: dollyvault
+    ports:
+      - "5432:5432"
+    volumes:
+      - dollyvault_pg:/var/lib/postgresql/data
+
+  api:
+    build: ./apps/api
+    env_file: .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+  web:
+    build: ./apps/web
+    environment:
+      VITE_API_BASE_URL: http://localhost:3000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+
+volumes:
+  dollyvault_pg:
