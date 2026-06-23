@@ -1,0 +1,51 @@
+{
+  "pages": [
+    "pages/auth/login/index",
+    "pages/auth/register/index",
+    "pages/home/index/index",
+    "pages/stats/index/index",
+    "pages/catalog/list/index",
+    "pages/catalog/detail/index",
+    "pages/catalog/form/index",
+    "pages/collections/detail/index",
+    "pages/timeline/index/index",
+    "pages/poster/index/index",
+    "pages/me/index/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "DollyVault",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f7f8fb"
+  },
+  "tabBar": {
+    "color": "#7a8494",
+    "selectedColor": "#ff5c9a",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/stats/index/index",
+        "text": "统计"
+      },
+      {
+        "pagePath": "pages/catalog/list/index",
+        "text": "图鉴"
+      },
+      {
+        "pagePath": "pages/poster/index/index",
+        "text": "海报"
+      },
+      {
+        "pagePath": "pages/me/index/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

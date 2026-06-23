@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "图鉴详情",
+  "usingComponents": {
+    "empty-state": "../../../components/empty-state/index",
+    "image-uploader": "../../../components/image-uploader/index"
+  }
+}

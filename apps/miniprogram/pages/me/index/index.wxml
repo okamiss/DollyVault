@@ -1,0 +1,40 @@
+<view class="page">
+  <view class="page-header">
+    <view>
+      <text class="page-title">我的</text>
+      <text class="page-subtitle">账号、偏好、导入导出和关于 DollyVault。</text>
+    </view>
+  </view>
+
+  <view class="card form-card">
+    <text class="card-title">账号信息</text>
+    <view class="form-item"><text class="form-label">用户名</text><view class="picker-value disabled">{{user.username}}</view></view>
+    <view class="form-item"><text class="form-label">昵称</text><input class="input" value="{{profile.nickname}}" data-field="nickname" bindinput="onProfileInput" /></view>
+    <view class="form-item"><text class="form-label">头像 URL</text><input class="input" value="{{profile.avatarUrl}}" data-field="avatarUrl" bindinput="onProfileInput" /></view>
+    <view class="form-item"><text class="form-label">简介</text><textarea class="textarea" value="{{profile.bio}}" data-field="bio" bindinput="onProfileInput" /></view>
+    <button class="primary-button" bindtap="saveProfile">保存账号信息</button>
+  </view>
+
+  <view class="card form-card">
+    <text class="card-title">偏好设置</text>
+    <view class="setting-row"><text>货币单位</text><text class="muted">CNY (¥)</text></view>
+    <view class="setting-row" data-field="showPurchasePrice" bindtap="toggleSetting"><text>显示购入价</text><switch checked="{{settings.showPurchasePrice}}" color="#ff5c9a" /></view>
+    <view class="setting-row" data-field="showFloatAmount" bindtap="toggleSetting"><text>显示浮动金额</text><switch checked="{{settings.showFloatAmount}}" color="#ff5c9a" /></view>
+    <view class="setting-row" data-field="showSeriesInfo" bindtap="toggleSetting"><text>显示系列信息</text><switch checked="{{settings.showSeriesInfo}}" color="#ff5c9a" /></view>
+  </view>
+
+  <view class="card form-card">
+    <text class="card-title">数据管理</text>
+    <button class="secondary-button" data-url="/export/catalog" data-name="图鉴 JSON" bindtap="exportJson">导出图鉴 JSON</button>
+    <button class="secondary-button" data-url="/export/inventory" data-name="库存 JSON" bindtap="exportJson">导出库存 JSON</button>
+    <button class="secondary-button" data-url="/export/prices" data-name="价格记录 JSON" bindtap="exportJson">导出价格记录 JSON</button>
+    <button class="secondary-button" bindtap="importData">导入数据</button>
+  </view>
+
+  <view class="card form-card">
+    <text class="card-title">帮助</text>
+    <button class="secondary-button" bindtap="goGuide">新手引导</button>
+    <button class="secondary-button" bindtap="about">关于 DollyVault</button>
+    <button class="danger-button" bindtap="logout">退出登录</button>
+  </view>
+</view>

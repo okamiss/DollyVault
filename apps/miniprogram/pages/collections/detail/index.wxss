@@ -1,0 +1,47 @@
+.mini-danger {
+  padding: 0 24rpx;
+  height: 70rpx;
+  border-radius: 18rpx;
+  background: #fff1f0;
+  color: #d4380d;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+.hero-card {
+  display: grid;
+  grid-template-columns: 148rpx 1fr;
+  gap: 18rpx;
+  padding: 20rpx;
+}
+
+.hero-card image,
+.hero-thumb {
+  width: 148rpx;
+  height: 148rpx;
+  border-radius: 24rpx;
+}
+
+.hero-title {
+  display: block;
+  margin-bottom: 10rpx;
+  color: #18243a;
+  font-size: 32rpx;
+  font-weight: 900;
+}
+
+.green {
+  background: #e8fff7;
+  color: #25c2a0;
+}
+
+.price-box {
+  grid-column: 2;
+  display: flex;
+  justify-content: space-between;
+  gap: 12rpx;
+}
+
+.form-card {
+  margin-top: 20rpx;
+}

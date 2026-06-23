@@ -1,0 +1,87 @@
+.mini-primary {
+  flex: 0 0 auto;
+  padding: 0 24rpx;
+  height: 72rpx;
+  border-radius: 20rpx;
+  background: #ff5c9a;
+  color: #ffffff;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+.summary-card {
+  display: flex;
+  justify-content: space-between;
+  padding: 30rpx;
+}
+
+.summary-label {
+  display: block;
+  color: #7a8494;
+  font-size: 24rpx;
+}
+
+.summary-value {
+  display: block;
+  margin: 10rpx 0;
+  color: #18243a;
+  font-size: 44rpx;
+  font-weight: 900;
+}
+
+.float-box {
+  min-width: 160rpx;
+  text-align: right;
+}
+
+.float-value {
+  display: block;
+  margin-top: 12rpx;
+  color: #25c2a0;
+  font-size: 34rpx;
+  font-weight: 900;
+}
+
+.collection-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+  margin-top: 20rpx;
+}
+
+.collection-card {
+  display: grid;
+  grid-template-columns: 128rpx 1fr;
+  gap: 18rpx;
+  padding: 18rpx;
+}
+
+.collection-card image,
+.thumb {
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 22rpx;
+}
+
+.collection-info {
+  min-width: 0;
+}
+
+.collection-name {
+  display: block;
+  margin-bottom: 12rpx;
+  color: #18243a;
+  font-weight: 800;
+}
+
+.green {
+  background: #e8fff7;
+  color: #25c2a0;
+}
+
+.collection-price {
+  grid-column: 2;
+  display: flex;
+  justify-content: space-between;
+  gap: 16rpx;
+}

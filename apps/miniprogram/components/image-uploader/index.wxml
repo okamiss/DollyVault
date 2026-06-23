@@ -1,0 +1,10 @@
+<view class="uploader">
+  <view wx:for="{{value}}" wx:key="objectKey" class="upload-item">
+    <image src="{{item.url}}" mode="aspectFill" bindtap="preview" data-url="{{item.url}}" />
+    <button class="remove" bindtap="remove" data-index="{{index}}">×</button>
+  </view>
+  <button wx:if="{{value.length < max}}" class="upload-add" bindtap="choose">
+    <text class="plus">+</text>
+    <text>添加图片</text>
+  </button>
+</view>

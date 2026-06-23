@@ -1,0 +1,26 @@
+<view class="page">
+  <view class="page-header">
+    <view>
+      <text class="page-title">{{isEdit ? '编辑图鉴' : '创建图鉴'}}</text>
+      <text class="page-subtitle">名称和角色是必填信息，其余字段可稍后补充。</text>
+    </view>
+  </view>
+
+  <view wx:if="{{isEdit && !canEdit}}" class="card forbidden">
+    <text class="forbidden-title">只能编辑自己创建的图鉴</text>
+    <text class="muted">这条公共图鉴由其他用户创建，可以查看和添加到自己的收藏。</text>
+  </view>
+
+  <view wx:else class="card form-card">
+    <view class="form-item"><text class="form-label">图片（最多 5 张）</text><image-uploader value="{{form.images}}" bind:change="onImagesChange" /></view>
+    <view class="form-item"><text class="form-label">名称</text><input class="input" value="{{form.name}}" placeholder="例如：粉色毛绒挂件" data-field="name" bindinput="onInput" /></view>
+    <view class="form-item"><text class="form-label">角色</text><input class="input" value="{{form.characterName}}" placeholder="例如：玲娜贝儿" data-field="characterName" bindinput="onInput" /></view>
+    <view class="form-item"><text class="form-label">系列（选填）</text><input class="input" value="{{form.series}}" placeholder="例如：春日限定" data-field="series" bindinput="onInput" /></view>
+    <view class="form-item"><text class="form-label">型号（选填）</text><input class="input" value="{{form.model}}" placeholder="例如：SS 挂件" data-field="model" bindinput="onInput" /></view>
+    <view class="form-item"><text class="form-label">发售日期（选填）</text><picker mode="date" value="{{form.releaseDate}}" bindchange="onDateChange"><view class="picker-value">{{form.releaseDate || '选择日期'}}</view></picker></view>
+    <view class="form-item"><text class="form-label">官方价格（选填）</text><input class="input" type="digit" value="{{form.officialPrice}}" data-field="officialPrice" bindinput="onInput" /></view>
+    <view class="form-item"><text class="form-label">标签（选填）</text><input class="input" value="{{form.tags}}" placeholder="多个标签用逗号分隔，例如：限定，春季" data-field="tags" bindinput="onInput" /></view>
+    <view class="form-item"><text class="form-label">简介（选填）</text><textarea class="textarea" value="{{form.description}}" placeholder="补充材质、尺寸或特别说明" data-field="description" bindinput="onInput" /></view>
+    <button class="primary-button" loading="{{saving}}" bindtap="submit">保存</button>
+  </view>
+</view>

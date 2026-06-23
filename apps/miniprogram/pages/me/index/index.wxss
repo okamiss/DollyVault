@@ -1,0 +1,34 @@
+.form-card {
+  margin-bottom: 20rpx;
+}
+
+.card-title {
+  display: block;
+  margin-bottom: 22rpx;
+  color: #18243a;
+  font-size: 32rpx;
+  font-weight: 800;
+}
+
+.disabled {
+  color: #7a8494;
+  background: #f7f8fb;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 82rpx;
+  border-bottom: 1rpx solid #e8edf4;
+  color: #18243a;
+}
+
+.setting-row:last-child {
+  border-bottom: 0;
+}
+
+.secondary-button,
+.danger-button {
+  margin-top: 16rpx;
+}

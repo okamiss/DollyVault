@@ -1,0 +1,63 @@
+<view class="page">
+  <view wx:if="{{item}}">
+    <view class="page-header">
+      <view>
+        <text class="page-title">图鉴详情</text>
+        <text class="page-subtitle">{{item.name}}</text>
+      </view>
+      <view wx:if="{{canManage}}" class="header-actions">
+        <button class="mini-button" bindtap="goEdit">编辑</button>
+        <button class="mini-danger" bindtap="deleteItem">删除</button>
+      </view>
+    </view>
+
+    <scroll-view scroll-x class="gallery">
+      <image wx:for="{{gallery}}" wx:key="objectKey" src="{{item.url}}" mode="aspectFit" data-url="{{item.url}}" bindtap="previewImage" />
+      <view wx:if="{{gallery.length === 0}}" class="gallery-placeholder image-placeholder"></view>
+    </scroll-view>
+
+    <view class="card detail-card">
+      <text class="detail-name">{{item.name}}</text>
+      <text class="muted">{{item.characterName}} · {{item.series || '未设置系列'}}</text>
+      <view class="tag-row">
+        <text wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this" class="tag">{{tag}}</text>
+      </view>
+      <view class="description-row"><text>型号</text><text>{{item.model || '未设置'}}</text></view>
+      <view class="description-row"><text>发售日期</text><text>{{releaseDateText}}</text></view>
+      <view class="description-row"><text>官方价格</text><text>{{officialPriceText}}</text></view>
+      <view class="description-row block"><text>简介</text><text>{{descriptionText}}</text></view>
+      <button class="primary-button add-button" bindtap="toggleAddForm">添加到我的收藏</button>
+    </view>
+
+    <view wx:if="{{showAddForm}}" class="card form-card">
+      <text class="form-title">添加到我的收藏</text>
+      <view class="form-item"><text class="form-label">购入价格</text><input class="input" type="digit" value="{{addForm.purchasePrice}}" data-field="purchasePrice" bindinput="onAddInput" /></view>
+      <view class="form-item"><text class="form-label">购入日期</text><picker mode="date" value="{{addForm.purchaseDate}}" bindchange="onAddDate"><view class="picker-value">{{addForm.purchaseDate || '选择日期'}}</view></picker></view>
+      <view class="form-item"><text class="form-label">购入渠道</text><input class="input" value="{{addForm.purchaseChannel}}" data-field="purchaseChannel" bindinput="onAddInput" /></view>
+      <view class="form-item"><text class="form-label">品相</text><picker range="{{conditionOptions}}" range-key="label" value="{{conditionIndex}}" bindchange="onConditionChange"><view class="picker-value">{{conditionOptions[conditionIndex].label}}</view></picker></view>
+      <view class="form-item"><text class="form-label">状态</text><picker range="{{collectionStatusOptions}}" range-key="label" value="{{statusIndex}}" bindchange="onStatusChange"><view class="picker-value">{{collectionStatusOptions[statusIndex].label}}</view></picker></view>
+      <view class="form-item"><text class="form-label">当前估值</text><input class="input" type="digit" value="{{addForm.estimatedPrice}}" data-field="estimatedPrice" bindinput="onAddInput" /></view>
+      <view class="form-item"><text class="form-label">备注</text><textarea class="textarea" value="{{addForm.note}}" data-field="note" bindinput="onAddInput" /></view>
+      <view class="form-item"><text class="form-label">实拍图</text><image-uploader value="{{addForm.images}}" bind:change="onImagesChange" /></view>
+      <button class="primary-button" bindtap="submitCollection">保存到我的收藏</button>
+    </view>
+
+    <view class="card form-card">
+      <text class="form-title">价格历史</text>
+      <view class="price-form">
+        <input class="input" type="digit" placeholder="价格" value="{{price}}" data-field="price" bindinput="onPriceInput" />
+        <input class="input" placeholder="来源" value="{{priceSource}}" data-field="priceSource" bindinput="onPriceInput" />
+        <input class="input" placeholder="备注" value="{{priceNote}}" data-field="priceNote" bindinput="onPriceInput" />
+        <button class="primary-button" bindtap="submitPrice">添加价格</button>
+      </view>
+      <view wx:if="{{priceRecords.length === 0}}" class="muted empty-price">暂无价格记录</view>
+      <view wx:for="{{priceRecords}}" wx:key="id" class="price-row">
+        <text class="price">{{item.priceText}}</text>
+        <text class="muted">{{item.source || '未标注来源'}}</text>
+        <text class="muted">{{item.recordDateText}}</text>
+      </view>
+    </view>
+  </view>
+
+  <empty-state wx:else title="正在读取图鉴" />
+</view>

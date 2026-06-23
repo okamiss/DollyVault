@@ -1,0 +1,36 @@
+.brand-panel {
+  margin-bottom: 44rpx;
+}
+
+.brand {
+  display: block;
+  color: #ff5c9a;
+  font-size: 56rpx;
+  font-weight: 900;
+}
+
+.brand-copy {
+  display: block;
+  margin-top: 12rpx;
+  color: #7a8494;
+  font-size: 28rpx;
+}
+
+.auth-card {
+  padding: 32rpx;
+}
+
+.auth-title {
+  display: block;
+  margin-bottom: 28rpx;
+  color: #18243a;
+  font-size: 42rpx;
+  font-weight: 800;
+}
+
+.switch-link {
+  margin-top: 20rpx;
+  background: transparent;
+  color: #ff5c9a;
+  font-size: 26rpx;
+}

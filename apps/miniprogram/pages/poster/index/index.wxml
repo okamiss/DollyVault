@@ -1,0 +1,22 @@
+<view class="page">
+  <view class="page-header">
+    <view>
+      <text class="page-title">生成海报</text>
+      <text class="page-subtitle">选择藏品和模板，保存 PNG 分享图。</text>
+    </view>
+  </view>
+
+  <empty-state wx:if="{{collections.length === 0}}" title="暂无可生成海报的藏品" description="先把图鉴商品添加到我的收藏。" />
+
+  <view wx:else>
+    <view class="card controls">
+      <view class="form-item"><text class="form-label">藏品</text><picker range="{{collectionNames}}" value="{{collectionIndex}}" bindchange="onCollectionChange"><view class="picker-value">{{collectionNames[collectionIndex]}}</view></picker></view>
+      <view class="form-item"><text class="form-label">模板</text><picker range="{{templateNames}}" value="{{templateIndex}}" bindchange="onTemplateChange"><view class="picker-value">{{templateNames[templateIndex]}}</view></picker></view>
+      <button class="primary-button" bindtap="savePoster">保存 PNG</button>
+    </view>
+
+    <view class="poster-wrap">
+      <canvas type="2d" id="posterCanvas" class="poster-canvas"></canvas>
+    </view>
+  </view>
+</view>

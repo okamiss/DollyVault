@@ -1,0 +1,20 @@
+<view class="page">
+  <view class="page-header">
+    <view>
+      <text class="page-title">收藏历史</text>
+      <text class="page-subtitle">按时间线回顾所有交易与编辑记录。</text>
+    </view>
+  </view>
+
+  <empty-state wx:if="{{events.length === 0}}" title="暂无交易记录" description="购入藏品或录入价格后，这里会展示历史。" />
+
+  <view wx:else class="card timeline-card">
+    <view wx:for="{{events}}" wx:key="id" class="timeline-row">
+      <view class="dot {{item.danger ? 'danger' : ''}}"></view>
+      <view>
+        <text class="event-title">{{item.title}}</text>
+        <text class="muted">{{item.timeText}}</text>
+      </view>
+    </view>
+  </view>
+</view>

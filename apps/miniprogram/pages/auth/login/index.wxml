@@ -1,0 +1,20 @@
+<view class="auth-page">
+  <view class="brand-panel">
+    <text class="brand">DollyVault</text>
+    <text class="brand-copy">用你的 DollyVault 账号继续整理收藏。</text>
+  </view>
+
+  <view class="card auth-card">
+    <text class="auth-title">欢迎回来</text>
+    <view class="form-item">
+      <text class="form-label">用户名</text>
+      <input class="input" value="{{username}}" placeholder="dolly_fan" bindinput="onUsernameInput" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">密码</text>
+      <input class="input" password value="{{password}}" bindinput="onPasswordInput" />
+    </view>
+    <button class="primary-button" loading="{{loading}}" bindtap="submit">登录</button>
+    <button class="switch-link" bindtap="goRegister">还没有账号？注册一个</button>
+  </view>
+</view>
