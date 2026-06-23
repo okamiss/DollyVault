@@ -1,0 +1,199 @@
+page {
+  min-height: 100%;
+  background: #f7f8fb;
+  color: #18243a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 28rpx;
+  letter-spacing: 0;
+}
+
+view,
+text,
+button,
+input,
+textarea,
+picker {
+  box-sizing: border-box;
+}
+
+button {
+  margin: 0;
+  border-radius: 20rpx;
+  font-size: 28rpx;
+}
+
+button::after {
+  border: 0;
+}
+
+.page {
+  min-height: 100vh;
+  padding: 28rpx 28rpx 120rpx;
+}
+
+.auth-page {
+  min-height: 100vh;
+  padding: 56rpx 32rpx;
+  background: #f7f8fb;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20rpx;
+  margin-bottom: 24rpx;
+}
+
+.page-title {
+  display: block;
+  color: #18243a;
+  font-size: 42rpx;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.page-subtitle {
+  display: block;
+  margin-top: 8rpx;
+  color: #7a8494;
+  font-size: 26rpx;
+  line-height: 1.45;
+}
+
+.card {
+  border: 1rpx solid #e8edf4;
+  border-radius: 28rpx;
+  background: #ffffff;
+  box-shadow: 0 12rpx 32rpx rgba(24, 36, 58, 0.06);
+}
+
+.section-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 28rpx 0 16rpx;
+}
+
+.section-title {
+  color: #18243a;
+  font-size: 34rpx;
+  font-weight: 800;
+}
+
+.muted {
+  color: #7a8494;
+}
+
+.primary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 84rpx;
+  border-radius: 22rpx;
+  background: #ff5c9a;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.secondary-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 84rpx;
+  border: 1rpx solid #e8edf4;
+  border-radius: 22rpx;
+  background: #ffffff;
+  color: #18243a;
+  font-weight: 700;
+}
+
+.danger-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 84rpx;
+  border-radius: 22rpx;
+  background: #fff1f0;
+  color: #d4380d;
+  font-weight: 700;
+}
+
+.form-card {
+  padding: 28rpx;
+}
+
+.form-item {
+  margin-bottom: 24rpx;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 12rpx;
+  color: #18243a;
+  font-size: 26rpx;
+  font-weight: 700;
+}
+
+.input,
+.textarea,
+.picker-value {
+  width: 100%;
+  min-height: 84rpx;
+  padding: 20rpx 22rpx;
+  border: 1rpx solid #e8edf4;
+  border-radius: 18rpx;
+  background: #ffffff;
+  color: #18243a;
+  font-size: 28rpx;
+}
+
+.textarea {
+  min-height: 160rpx;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.tag {
+  padding: 8rpx 14rpx;
+  border-radius: 999rpx;
+  background: #fff0f6;
+  color: #ff5c9a;
+  font-size: 22rpx;
+}
+
+.status-tabs {
+  display: flex;
+  gap: 12rpx;
+  overflow-x: auto;
+  padding-bottom: 4rpx;
+  white-space: nowrap;
+}
+
+.status-tab {
+  flex: 0 0 auto;
+  padding: 14rpx 22rpx;
+  border-radius: 999rpx;
+  background: #ffffff;
+  color: #7a8494;
+  font-size: 24rpx;
+}
+
+.status-tab.active {
+  background: #fff0f6;
+  color: #ff5c9a;
+  font-weight: 700;
+}
+
+.image-placeholder {
+  background: linear-gradient(135deg, #fff0f6, #f0edff);
+}
+
+.price {
+  color: #ff5c9a;
+  font-weight: 800;
+}

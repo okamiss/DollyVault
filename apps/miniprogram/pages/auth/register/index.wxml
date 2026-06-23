@@ -1,0 +1,28 @@
+<view class="auth-page">
+  <view class="brand-panel">
+    <text class="brand">DollyVault</text>
+    <text class="brand-copy">第一版使用普通账号登录，不需要邮箱。</text>
+  </view>
+
+  <view class="card auth-card">
+    <text class="auth-title">创建账号</text>
+    <view class="form-item">
+      <text class="form-label">用户名</text>
+      <input class="input" value="{{username}}" placeholder="dolly_fan" data-field="username" bindinput="onInput" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">昵称</text>
+      <input class="input" value="{{nickname}}" placeholder="例如：贝儿收藏家" data-field="nickname" bindinput="onInput" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">密码</text>
+      <input class="input" password value="{{password}}" data-field="password" bindinput="onInput" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">确认密码</text>
+      <input class="input" password value="{{confirm}}" data-field="confirm" bindinput="onInput" />
+    </view>
+    <button class="primary-button" loading="{{loading}}" bindtap="submit">注册并进入</button>
+    <button class="switch-link" bindtap="goLogin">已经有账号？去登录</button>
+  </view>
+</view>

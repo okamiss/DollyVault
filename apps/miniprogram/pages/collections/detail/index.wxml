@@ -1,0 +1,42 @@
+<view class="page">
+  <view wx:if="{{item}}">
+    <view class="page-header">
+      <view>
+        <text class="page-title">收藏详情</text>
+        <text class="page-subtitle">{{item.catalogItem.name}}</text>
+      </view>
+      <button class="mini-danger" bindtap="deleteItem">删除</button>
+    </view>
+
+    <view class="card hero-card">
+      <image wx:if="{{imageUrl}}" src="{{imageUrl}}" mode="aspectFill" />
+      <view wx:else class="hero-thumb image-placeholder"></view>
+      <view class="hero-info">
+        <text class="hero-title">{{item.catalogItem.name}}</text>
+        <text class="muted">{{item.catalogItem.characterName}} · {{item.catalogItem.series || '未设置系列'}}</text>
+        <view class="tag-row">
+          <text class="tag">{{item.condition}}</text>
+          <text class="tag green">{{item.status}}</text>
+        </view>
+      </view>
+      <view class="price-box">
+        <text class="price">{{estimateText}}</text>
+        <text class="muted">购入 {{purchaseText}}</text>
+        <text class="muted">{{purchaseDateText}}</text>
+      </view>
+    </view>
+
+    <view class="card form-card">
+      <view class="form-item"><text class="form-label">购入价格</text><input class="input" type="digit" value="{{form.purchasePrice}}" data-field="purchasePrice" bindinput="onInput" /></view>
+      <view class="form-item"><text class="form-label">购入日期</text><picker mode="date" value="{{form.purchaseDate}}" bindchange="onDate"><view class="picker-value">{{form.purchaseDate || '选择日期'}}</view></picker></view>
+      <view class="form-item"><text class="form-label">购入渠道</text><input class="input" value="{{form.purchaseChannel}}" data-field="purchaseChannel" bindinput="onInput" /></view>
+      <view class="form-item"><text class="form-label">品相</text><picker range="{{conditionOptions}}" range-key="label" value="{{conditionIndex}}" bindchange="onConditionChange"><view class="picker-value">{{conditionOptions[conditionIndex].label}}</view></picker></view>
+      <view class="form-item"><text class="form-label">状态</text><picker range="{{collectionStatusOptions}}" range-key="label" value="{{statusIndex}}" bindchange="onStatusChange"><view class="picker-value">{{collectionStatusOptions[statusIndex].label}}</view></picker></view>
+      <view class="form-item"><text class="form-label">当前估值</text><input class="input" type="digit" value="{{form.estimatedPrice}}" data-field="estimatedPrice" bindinput="onInput" /></view>
+      <view class="form-item"><text class="form-label">备注</text><textarea class="textarea" value="{{form.note}}" data-field="note" bindinput="onInput" /></view>
+      <view class="form-item"><text class="form-label">实拍图</text><image-uploader value="{{form.images}}" bind:change="onImagesChange" /></view>
+      <button class="primary-button" loading="{{saving}}" bindtap="submit">保存收藏</button>
+    </view>
+  </view>
+  <empty-state wx:else title="正在读取收藏" />
+</view>

@@ -1,0 +1,29 @@
+.timeline-card {
+  padding: 26rpx;
+}
+
+.timeline-row {
+  display: grid;
+  grid-template-columns: 28rpx 1fr;
+  gap: 18rpx;
+  padding: 0 0 30rpx;
+}
+
+.dot {
+  width: 18rpx;
+  height: 18rpx;
+  margin-top: 10rpx;
+  border-radius: 50%;
+  background: #ff5c9a;
+}
+
+.dot.danger {
+  background: #d4380d;
+}
+
+.event-title {
+  display: block;
+  color: #18243a;
+  font-weight: 800;
+  margin-bottom: 6rpx;
+}

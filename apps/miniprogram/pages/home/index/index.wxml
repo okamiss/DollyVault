@@ -1,0 +1,61 @@
+<view class="page">
+  <view class="page-header">
+    <view>
+      <text class="page-title">我的收藏</text>
+      <text class="page-subtitle">记录每一次入手、估值和状态变化</text>
+    </view>
+    <button class="mini-primary" bindtap="goCatalog">去图鉴添加</button>
+  </view>
+
+  <view class="summary-card card">
+    <view>
+      <text class="summary-label">收藏了 {{stats.totalCount || 0}} 只宝贝</text>
+      <text class="summary-value">{{estimatedTotalText}}</text>
+      <text class="summary-label">当前估值合计</text>
+    </view>
+    <view class="float-box">
+      <text class="summary-label">浮动</text>
+      <text class="float-value">{{floatRatioText}}%</text>
+    </view>
+  </view>
+
+  <view class="section-title-row">
+    <text class="section-title">库存列表</text>
+  </view>
+  <scroll-view scroll-x class="status-tabs">
+    <view
+      wx:for="{{statusOptions}}"
+      wx:key="value"
+      class="status-tab {{selectedStatus === item.value ? 'active' : ''}}"
+      data-value="{{item.value}}"
+      bindtap="selectStatus"
+    >{{item.label}}</view>
+  </scroll-view>
+
+  <empty-state
+    wx:if="{{collections.length === 0 && !loading}}"
+    title="还没有收藏宝贝"
+    description="先去图鉴创建或选择一个商品，再加入你的收藏。"
+    action-text="去图鉴看看"
+    bind:action="goCatalog"
+  />
+
+  <view wx:else class="collection-list">
+    <view wx:for="{{collections}}" wx:key="id" class="collection-card card" data-id="{{item.id}}" bindtap="goCollection">
+      <image wx:if="{{item.imageUrl}}" src="{{item.imageUrl}}" mode="aspectFill" />
+      <view wx:else class="thumb image-placeholder"></view>
+      <view class="collection-info">
+        <text class="collection-name">{{item.catalogItem.name}}</text>
+        <view class="tag-row">
+          <text class="tag">{{item.condition}}</text>
+          <text class="tag green">{{item.status}}</text>
+        </view>
+        <text class="muted">{{item.purchaseDateText}}</text>
+      </view>
+      <view class="collection-price">
+        <text class="price">{{item.estimateText}}</text>
+        <text class="muted">购入 {{item.purchaseText}}</text>
+      </view>
+    </view>
+  </view>
+</view>

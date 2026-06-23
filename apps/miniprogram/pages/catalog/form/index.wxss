@@ -1,0 +1,11 @@
+.forbidden {
+  padding: 40rpx;
+}
+
+.forbidden-title {
+  display: block;
+  margin-bottom: 12rpx;
+  color: #18243a;
+  font-size: 32rpx;
+  font-weight: 800;
+}

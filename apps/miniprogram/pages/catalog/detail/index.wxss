@@ -1,0 +1,104 @@
+.header-actions {
+  display: flex;
+  gap: 12rpx;
+}
+
+.mini-button,
+.mini-danger {
+  padding: 0 20rpx;
+  height: 68rpx;
+  border-radius: 18rpx;
+  font-size: 24rpx;
+}
+
+.mini-button {
+  background: #fff0f6;
+  color: #ff5c9a;
+}
+
+.mini-danger {
+  background: #fff1f0;
+  color: #d4380d;
+}
+
+.gallery {
+  margin-bottom: 20rpx;
+  white-space: nowrap;
+}
+
+.gallery image,
+.gallery-placeholder {
+  display: inline-block;
+  width: 560rpx;
+  height: 420rpx;
+  margin-right: 16rpx;
+  border-radius: 28rpx;
+  background: #ffffff;
+}
+
+.detail-card {
+  padding: 28rpx;
+}
+
+.detail-name {
+  display: block;
+  color: #18243a;
+  font-size: 38rpx;
+  font-weight: 900;
+}
+
+.description-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20rpx;
+  margin-top: 20rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid #e8edf4;
+  color: #18243a;
+}
+
+.description-row text:first-child {
+  color: #7a8494;
+}
+
+.description-row.block {
+  display: block;
+}
+
+.description-row.block text {
+  display: block;
+}
+
+.add-button {
+  margin-top: 28rpx;
+}
+
+.form-title {
+  display: block;
+  margin-bottom: 20rpx;
+  color: #18243a;
+  font-size: 32rpx;
+  font-weight: 800;
+}
+
+.form-card {
+  margin-top: 20rpx;
+}
+
+.price-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16rpx;
+  padding: 18rpx 0;
+  border-top: 1rpx solid #e8edf4;
+}
+
+.empty-price {
+  padding: 24rpx 0;
+}

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "图鉴",
+  "usingComponents": {
+    "empty-state": "../../../components/empty-state/index"
+  }
+}

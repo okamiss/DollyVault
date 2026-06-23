@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "编辑图鉴",
+  "usingComponents": {
+    "image-uploader": "../../../components/image-uploader/index"
+  }
+}
